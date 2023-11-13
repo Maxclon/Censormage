@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#282828"
+    tools:context=".MainActivity">
+
+
+    <ImageView
+        android:id="@+id/CM_VISOR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <VideoView
+        android:id="@+id/CM_VIDEO_VISOR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.41" />
+
+    <LinearLayout
+        android:id="@+id/actionBar"
+        android:layout_width="412dp"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom"
+        android:background="#212121"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <Button
+            android:id="@+id/CM_ABRIR_MEDIA"
+            android:layout_width="100px"
+            android:layout_height="100px"
+            android:layout_gravity="center"
+            android:layout_marginStart="400px"
+            android:background="@android:drawable/ic_menu_add" />
+
+        <Button
+            android:id="@+id/CM_GUARDAR"
+            android:layout_width="100px"
+            android:layout_height="100px"
+            android:layout_gravity="center"
+            android:layout_marginStart="100px"
+            android:background="@android:drawable/stat_sys_download" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/actionBarFunciones"
+        android:layout_width="413dp"
+        android:layout_height="63dp"
+        android:layout_gravity="bottom"
+        android:background="#212121"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <EditText
+            android:id="@+id/CM_SEPARADOR_T"
+            android:layout_width="36dp"
+            android:layout_height="33dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="30px"
+            android:background="@drawable/imput_redondeado"
+            android:backgroundTint="#66452F"
+            android:backgroundTintMode="screen"
+            android:ems="10"
+            android:inputType="numberSigned"
+            android:textAlignment="center"
+            android:textColor="#FFC8A4" />
+
+        <TextView
+            android:id="@+id/CM_TXT_SEPARADOR"
+            android:layout_width="59dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="20px"
+            android:text="Separador"
+            android:textColor="#FFC8A4"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/CM_GROSOR_T"
+            android:layout_width="36dp"
+            android:layout_height="34dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="50px"
+            android:background="@drawable/imput_redondeado"
+            android:backgroundTint="#66452F"
+            android:backgroundTintMode="screen"
+            android:ems="10"
+            android:inputType="numberSigned"
+            android:textAlignment="center"
+            android:textColor="#FFC8A4" />
+
+        <TextView
+            android:id="@+id/CM_TXT_GROSOR"
+            android:layout_width="43dp"
+            android:layout_height="15dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="20px"
+            android:layout_marginEnd="50px"
+            android:text="Grosor"
+            android:textColor="#FFC8A4"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/CM_TRAMADO"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="30px"
+            android:text="APLICAR"
+            android:textColor="#FFC8A4"
+            android:textSize="10sp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

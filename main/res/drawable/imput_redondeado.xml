@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <corners android:radius="10dp" /> <!-- Ajusta el radio para cambiar la cantidad de redondeo -->
+    <solid android:color="#66452F" /> <!-- Color de fondo del botón -->
+</shape>
