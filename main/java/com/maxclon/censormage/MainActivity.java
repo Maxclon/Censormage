@@ -151,33 +151,29 @@ public class MainActivity extends AppCompatActivity {
             } else if (mediaType.equals("video")) {
                 videoView.setVideoURI(mediaUri);
 
-                // Utiliza "this" como el contexto
                 MediaController mediaController = new MediaController(this);
                 mediaController.setMediaPlayer(videoView);
                 videoView.setMediaController(mediaController);
 
-                // Agrega una vista de previsualización para evitar el fondo negro
+                // Agrega una vista de previsualización para evitar el fondo negro (o eso parece)
                 videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                     @Override
                     public void onPrepared(MediaPlayer mediaPlayer) {
-                        // Cuando el video está preparado, la superficie está lista
+                       
                         mediaPlayer.setDisplay(videoView.getHolder());
 
-                        // Iniciar la reproducción del video
+                       
                         videoView.start();
                     }
                 });
-
-                imageView.setVisibility(View.GONE); // Oculta imageView
-                videoView.setVisibility(View.VISIBLE); // Muestra videoView
+                imageView.setVisibility(View.GONE); 
+                videoView.setVisibility(View.VISIBLE); 
             }
         } else {
-            // Si no se seleccionó ningún elemento, oculta ambos views
             imageView.setVisibility(View.GONE);
             videoView.setVisibility(View.GONE);
         }
     }
-
 
     private String getMediaType(Uri mediaUri) {
         String mimeType = getContentResolver().getType(mediaUri);
@@ -196,7 +192,6 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_PERMISSIONS) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permiso de escritura en almacenamiento concedido
             } else {
                 Toast.makeText(this, "Permiso de escritura en almacenamiento denegado", Toast.LENGTH_SHORT).show();
             }
@@ -338,17 +333,17 @@ public class MainActivity extends AppCompatActivity {
                     String originalWidth = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH);
                     String originalHeight = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT);
 
-                    // Configura el comando FFmpeg para extraer y procesar fotogramas
+                    // Configura el comando FFmpeg para extraer y procesar fotogramas (parcialmente funciona, pero da error)
                     String[] cmd = new String[]{
-                            "-i", mediaUri.toString(), // Entrada: el video original
+                            "-i", mediaUri.toString(), 
                             "-vf", "fps=" + originalFps + ",scale=" + originalWidth + ":" + originalHeight,
-                            outputDirectory + File.separator + "frame%03d.jpg" // Salida: directorio con fotogramas numerados
+                            outputDirectory + File.separator + "frame%03d.jpg" 
                     };
 
                     int result = FFmpeg.execute(cmd);
 
                     if (result == Config.RETURN_CODE_SUCCESS) {
-                        // El proceso de extracción de fotogramas fue exitoso
+                       
                         List<String> framePaths = new ArrayList<>();
                         int i = 1;
                         while (true) {
@@ -362,7 +357,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
 
-                        // Aplica el efecto a cada fotograma y guarda los resultados en una lista
+                        // Aplica el efecto a cada fotograma y guarda los resultados en una lista (parcialmente funciona, pero da error)
                         List<Bitmap> processedFrames = new ArrayList<>();
                         for (String framePath : framePaths) {
                             Bitmap frameBitmap = BitmapFactory.decodeFile(framePath);
@@ -372,15 +367,15 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
 
-                        // Crea un nuevo video a partir de los fotogramas procesados
+                        // Crea un nuevo video a partir de los fotogramas procesados (parcialmente funciona, pero da error)
                         createVideoFromFrames(outputPath, processedFrames, originalFps, originalWidth, originalHeight);
 
-                        // Limpia los archivos temporales de fotogramas
+                    
                         for (String framePath : framePaths) {
                             new File(framePath).delete();
                         }
 
-                        // Actualiza el videoView con el nuevo video
+                       
                         videoView.setVideoURI(Uri.parse(outputPath));
                         videoView.start();
 
@@ -400,18 +395,18 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void createVideoFromFrames(String outputPath, List<Bitmap> frames, String originalFps, String originalWidth, String originalHeight) {
-        // Crea una nueva carpeta para los frames temporales
+      
         String tempFrameDir = getCacheDir() + File.separator + "temp_frames";
         File tempFrameDirFile = new File(tempFrameDir);
         tempFrameDirFile.mkdirs();
 
-        // Guarda cada frame en la carpeta temporal
+       
         for (int i = 0; i < frames.size(); i++) {
             File frameFile = new File(tempFrameDir, "frame" + i + ".jpg");
             saveBitmap(frames.get(i), frameFile);
         }
 
-        // Configura FFmpeg para crear un video a partir de los fotogramas
+        
         String[] cmd = new String[]{
                 "-framerate", originalFps,
                 "-i", tempFrameDir + File.separator + "frame%d.jpg",
@@ -422,14 +417,14 @@ public class MainActivity extends AppCompatActivity {
 
         int result = FFmpeg.execute(cmd);
 
-        // Borra los frames temporales
+        
         for (File frame : tempFrameDirFile.listFiles()) {
             frame.delete();
         }
         tempFrameDirFile.delete();
 
         if (result == Config.RETURN_CODE_SUCCESS) {
-            // Video creado exitosamente
+            
             Toast.makeText(this, "Video creado con éxito", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Error al crear el video", Toast.LENGTH_SHORT).show();
@@ -455,13 +450,13 @@ public class MainActivity extends AppCompatActivity {
                 String outputFileName = "processed_video.mp4";
                 String outputPath = outputDirectory + File.separator + outputFileName;
 
-                // Llama a extractVideoFramesAndApplyEffect para obtener los fotogramas procesados
+                
                 extractVideoFramesAndApplyEffect();
 
-                // Verifica si el nuevo video procesado se ha guardado correctamente
+               
                 File processedVideoFile = new File(outputPath);
                 if (processedVideoFile.exists()) {
-                    // Ahora, guarda el video en la galería
+                   
                     try {
                         ContentValues values = new ContentValues();
                         values.put(MediaStore.Video.Media.DISPLAY_NAME, outputFileName);
@@ -515,7 +510,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         scaleGestureDetector.onTouchEvent(event);
-        gestureDetector.onTouchEvent(event); // Manejar el doble toque
+        gestureDetector.onTouchEvent(event); 
 
         if (scaleFactor > 1.0f) {
             float x = event.getX();
@@ -527,14 +522,14 @@ public class MainActivity extends AppCompatActivity {
                     lastTouchY = y;
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    float dx = (float) ((x - lastTouchX) * 0.8); // Aumentar la velocidad con scaleFactor
-                    float dy = (float) ((y - lastTouchY) * 0.8); // Aumentar la velocidad con scaleFactor
+                    float dx = (float) ((x - lastTouchX) * 0.8); 
+                    float dy = (float) ((y - lastTouchY) * 0.8); 
 
-                    // Calcular la nueva posición teniendo en cuenta la traslación actual
+                  
                     posX += dx;
                     posY += dy;
 
-                    // Limitar la posición para que no se salga de los márgenes
+                   
                     float maxPosX = imageView.getWidth() * (scaleFactor - 1) / (2 * scaleFactor);
                     float minPosX = -maxPosX;
                     float maxPosY = imageView.getHeight() * (scaleFactor - 1) / (2 * scaleFactor);
@@ -570,12 +565,12 @@ public class MainActivity extends AppCompatActivity {
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onDoubleTap(MotionEvent e) {
-            // Restablecer la escala a 1.0f en un doble toque
+           
             scaleFactor = 1.0f;
             imageView.setScaleX(scaleFactor);
             imageView.setScaleY(scaleFactor);
 
-            // Centrar la imagen en su posición original
+         
             posX = 0;
             posY = 0;
             imageView.setTranslationX(posX);
